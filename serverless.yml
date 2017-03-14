@@ -1,0 +1,55 @@
+service: tsbb-admin
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  func_prefix: ${self:service}-${self:custom.stage}
+  private: false # Change to 'true' if you don't want to publish Dashboard
+
+provider:
+  name: aws
+  stage: dev
+  region: us-east-1
+  runtime: nodejs4.3
+  memorySize: 128
+  cfLogs: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "lambda:InvokeFunction"
+      Resource: "arn:aws:lambda:${self:provider.region}:*:function:*"
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:*"
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:resources.Resources.TSBBDynamo.Properties.TableName}"
+  environment:
+    SERVERLESS_PROJECT: ${self:service}
+    SERVERLESS_STAGE: ${self:custom.stage}
+
+resources:
+  Resources:
+    TSBBDynamo:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      Properties:
+        TableName: ${self:service}-${self:custom.stage}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+functions:
+  dashboard:
+    handler: handler.dashboard
+    name: ${self:custom.func_prefix}-dashboard
+    description: "${self:service}: Show TSBB Admin Application"
+    events:
+      - http:
+          path: tsbbadmin
+          method: get
+          cors: true
+          private: ${self:custom.private}

@@ -1,0 +1,131 @@
+body {
+    background-color: #f1f1f1;
+    font-family: Helvetica, Arial, Verdana;
+}
+
+.navbar-inverse {
+    background-color: #37474F;
+    border-color: #37474F;
+}
+
+.navbar-default {
+    background-color: #f8f8f8
+}
+
+.nav li>a {
+    color: #333;
+}
+
+/*.nav>li>a {
+    padding: 12px 20px;
+    min-height: 44px;
+    font-weight: 500;
+}*/
+
+/*.dropdown-toggle .fa-user,
+.fa-caret-down,
+.dropdown-toggle>li>a {
+    color: aqua;
+}*/
+
+.page-wrapper {
+    padding: 0 15px;
+    min-height: 586px;
+    background-color: #fff;
+}
+
+@media(min-width:768px) {
+    .page-wrapper {
+        position: inherit;
+        margin: 0 0 0 250px;
+        padding: 0 30px;
+        border-left: 1px solid #e7e7e7;
+    }
+}
+
+@media(min-width:768px) {
+    .navbar-right {
+        margin-right: 0px;
+    }
+}
+
+.dt-head-center {
+    text-align: center;
+}
+
+#loading-bar .peg {
+    box-shadow: red 2px 0 6px 1px;
+}
+
+#loading-bar .bar {
+    box-shadow: red 2px 0 6px 1px;
+}
+
+ input.ng-touched.ng-invalid {
+    border: 1px solid red!important;
+    box-shadow: 0 0 6px red!important;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    position: relative;
+    padding: 5px
+}
+
+#bulletinArea {
+    min-height: 500px;
+}
+
+#serverResponse{
+  position: fixed;
+  z-index: 4;
+  bottom: 0;
+  left:45%;
+  border: 1px solid #777;
+  background-color: white;
+  color: #333;
+  border-radius: 4px;
+  width: 200px;
+  text-align:center;
+  margin: 20px;
+  padding: 5px;
+}
+
+.fader {
+  opacity: 0;
+  -webkit-transition: opacity 0.25s ease-in;
+  -moz-transition: opacity 0.25s ease-in;
+  -o-transition: opacity 0.25s ease-in;
+  -ms-transition: opacity 0.25s ease-in;
+  transition: opacity 0.25s ease-in;
+}
+.fader.in{
+  opacity: 1;
+}
+.fader.out{
+  opacity: 0;
+}
+
+.activeBulletin{
+  background-color: rgb(223,240,216);
+}
+
+.bulletinTitle{
+  color: #3399CC;
+}
+.sticky{
+  min-width: 240px;
+  max-width: 265px;
+  margin: 7px;
+  float: left;
+  position: absolute;
+  cursor: -webkit-grab; cursor: -moz-grab;
+  border: 1px solid #555;
+  z-index: 0;
+}
+
+.stickyBody{
+  white-space: pre-line;
+  overflow:scroll;
+  height: 170px;
+}

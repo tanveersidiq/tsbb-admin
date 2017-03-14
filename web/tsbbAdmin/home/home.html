@@ -1,0 +1,81 @@
+<div data-ng-init="initialize()">
+    <br/>
+    <!-- Create Bulletin Dialog START -->
+    <div class="modal" id="createBulletin" tabindex="-1" role="dialog" aria-labelledby="createBulletinLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Enter unique name for Bulletin Board</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="frmBulletin">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Bulletin board name..." ng-model="activeBulletin.name" required/>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button data-ng-disabled="frmBulletin.$invalid" type="button" class="btn btn-primary" ng-click="createBulletin()" data-dismiss="modal">Create</button>
+                        <button id="btnClose" type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Create Bulletin Dialog END -->
+
+    <!-- Create Stick Bulletin Dialog START -->
+    <div class="modal" id="createStickBulletin" tabindex="-1" role="dialog" aria-labelledby="createStickBulletinLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add sticky note</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="frmStickBulletin">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Sticky title..." ng-model="sticky.title" />
+                            <textarea class="form-control" style="margin-top:10px" rows="4" placeholder="Sticky Content..." ng-model="sticky.content"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button data-ng-disabled="frmStickBulletin.$invalid" type="button" class="btn btn-primary" ng-click="createStickyNote(newSticky)"
+                            data-dismiss="modal">Create</button>
+                        <!--<button data-ng-disabled="frmBulletin.$invalid" type="button" class="btn btn-primary" ng-click="create()" data-dismiss="modal">Create</button>-->
+                        <button id="btnClose" type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Create Stick Bulletin Dialog END -->
+
+    <!-- The bulletin Area -->
+    <div class="panel panel-warning" id="bulletinArea">
+        <div class="panel-heading">
+
+            <!--<button type="button" class="btn btn-primary pull-right" data-ng-click="addBulletin()">+ Add</button>-->
+            <!--<button type="button" class="btn btn-warning addbtn" ng-click="openCreateStickyDialog()"><span class="glyphicon glyphicon-pushpin"></span> Sticky</button>-->
+            <a data-ng-show="activeBulletin.isActive" data-ng-click="addStickyNote()" class="btn btn-warning btn-xs pull-right"><i class="fa fa-sticky-note fa-fw"></i></a>
+            <a data-ng-click="addBulletin()" class="btn btn-success btn-xs pull-right"><i class="fa fa-plus fa-fw"></i></a>
+            <h3 class="panel-title">{{activeBulletin.title}}</h3>
+
+        </div>
+        <div class="panel-body" id="bulletinEditable">
+            <div class="panel panel-warning sticky" ng-repeat="sticky in activeBulletin.BulletinStickies" draggable>
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="display:inline-block;">{{sticky.Title}}</h3>
+                    <button type="button" class="btn btn-danger btn-xs pull-right" ng-click="removeStickyNote(sticky)"><i class="fa fa-trash fa-fw"></i></button>
+                </div>
+                <div class="panel-body stickyBody">
+                    <p>{{sticky.Content}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
