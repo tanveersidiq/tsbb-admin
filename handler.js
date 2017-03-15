@@ -1,28 +1,34 @@
 'use strict';
 
-const dynamoDB = require('./lib/dynamo');
-//const lambda = require('./lib/lambda');
+module.exports.cpuutilization = (event, context, callback) => {
 
-module.exports.dashboard = (event, context, callback) => {
-  const fs = require('fs');
-  const ejs = require('ejs');
+  const dynamoDBConfig = {
+    sessionToken: process.env.AWS_SESSION_TOKEN,
+    region: process.env.AWS_REGION
+  };
+  const AWS = require('aws-sdk');
+  const documentClient = new AWS.DynamoDB.DocumentClient(dynamoDBConfig);
+  const metricsTable = process.env.SERVERLESS_PROJECT + '-metrics-' + process.env.SERVERLESS_STAGE;
 
-  dynamoDB
-    .getInfrastructure()
-    .then((infrastructure) => {
-      const htmlpath = fs.readFileSync('./web/index.html', 'UTF-8');
-      const html = ejs.render(htmlpath, {
-        infrastructure: infrastructure
-      });
-
-      const response = {
-        statusCode: 200,
-        headers: {
-          'Content-Type': 'text/html',
-          "Access-Control-Allow-Origin": "*"
-        },
-        body: html
-      };
-      callback(null, response);
-    });
+  const params = {
+    TableName: metricsTable,
+    AttributesToGet: [
+      'id',
+      'name',
+      'data'
+    ]
+  };
+  documentClient.scan(params, (error, data) => {
+    const res = {
+      "statusCode": 200,
+      "headers": {},
+      "body": "" // body must be returned as a string
+    };
+    if (error) {
+      res.body = JSON.stringify(error);
+    } else {
+      res.body = JSON.stringify(data["Items"]);
+    }
+    context.succeed(res);
+  });
 };
